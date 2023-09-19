@@ -34,6 +34,11 @@ class ViewController: UIViewController {
     var request: VNCoreMLRequest?
     var visionModel: VNCoreMLModel?
     var isInferencing = false
+    private lazy var trajectoryRequest: VNDetectTrajectoriesRequest = {
+        return VNDetectTrajectoriesRequest(frameAnalysisSpacing: .zero,
+                                           trajectoryLength: 15,
+                                           completionHandler: visionRequestDidComplete)
+    }()
     
     // MARK: - AV Property
     var videoCapture: VideoCapture!
@@ -41,7 +46,7 @@ class ViewController: UIViewController {
     var lastExecution = Date()
     
     // MARK: - TableView Data
-    var predictions: [VNRecognizedObjectObservation] = []
+    var predictions: [VNTrajectoryObservation] = []
     
     // MARK - Performance Measurement Property
     private let 👨‍🔧 = 📏()
@@ -122,7 +127,7 @@ class ViewController: UIViewController {
 
 // MARK: - VideoCaptureDelegate
 extension ViewController: VideoCaptureDelegate {
-    func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
+    func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CMSampleBuffer?) {
         // the captured image from camera is contained on pixelBuffer
         if !self.isInferencing, let pixelBuffer = pixelBuffer {
             self.isInferencing = true
@@ -137,18 +142,22 @@ extension ViewController: VideoCaptureDelegate {
 }
 
 extension ViewController {
-    func predictUsingVision(pixelBuffer: CVPixelBuffer) {
+    func predictUsingVision(pixelBuffer: CMSampleBuffer) {
         guard let request = request else { fatalError() }
         // vision framework configures the input size of image following our model's input configuration automatically
         self.semaphore.wait()
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
-        try? handler.perform([request])
+        let handler = VNImageRequestHandler(cmSampleBuffer: pixelBuffer)
+        try? handler.perform([trajectoryRequest])
     }
+    
+//    func completionHandler(request: VNRequest, error: Error?) {
+//        // Process the results.
+//    }
     
     // MARK: - Post-processing
     func visionRequestDidComplete(request: VNRequest, error: Error?) {
         self.👨‍🔧.🏷(with: "endInference")
-        if let predictions = request.results as? [VNRecognizedObjectObservation] {
+        if let predictions = request.results as? [VNTrajectoryObservation], predictions.count > 0 {
 //            print(predictions.first?.labels.first?.identifier ?? "nil")
 //            print(predictions.first?.labels.first?.confidence ?? -1)
             
@@ -182,12 +191,12 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let rectString = predictions[indexPath.row].boundingBox.toString(digit: 2)
-        let confidence = predictions[indexPath.row].labels.first?.confidence ?? -1
+//        let rectString = predictions[indexPath.row].boundingBox.toString(digit: 2)
+        let confidence = predictions[indexPath.row].confidence ?? -1
         let confidenceString = String(format: "%.3f", confidence/*Math.sigmoid(confidence)*/)
         
-        cell.textLabel?.text = predictions[indexPath.row].label ?? "N/A"
-        cell.detailTextLabel?.text = "\(rectString), \(confidenceString)"
+//        cell.textLabel?.text = predictions[indexPath.row].label ?? "N/A"
+        cell.detailTextLabel?.text = "\(confidenceString)"
         return cell
     }
 }

@@ -1,0 +1,24 @@
+{
+  "Outputs" : {
+    "coordinates" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "confidence" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "Inputs" : {
+    "image" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "confidenceThreshold" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "iouThreshold" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "TrainingInputs" : {
+
+  }
+}

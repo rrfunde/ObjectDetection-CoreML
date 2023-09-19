@@ -23,14 +23,14 @@ class DrawingBoundingBoxView: UIView {
         }
     }
     
-    public var predictedObjects: [VNRecognizedObjectObservation] = [] {
+    public var predictedObjects: [VNTrajectoryObservation] = [] {
         didSet {
             self.drawBoxs(with: predictedObjects)
             self.setNeedsDisplay()
         }
     }
     
-    func drawBoxs(with predictions: [VNRecognizedObjectObservation]) {
+    func drawBoxs(with predictions: [VNTrajectoryObservation]) {
         subviews.forEach({ $0.removeFromSuperview() })
         
         for prediction in predictions {
@@ -38,13 +38,19 @@ class DrawingBoundingBoxView: UIView {
         }
     }
     
-    func createLabelAndBox(prediction: VNRecognizedObjectObservation) {
-        let labelString: String? = prediction.label
+    func createLabelAndBox(prediction: VNTrajectoryObservation) {
+        let labelString: String? = prediction.uuid.uuidString
         let color: UIColor = labelColor(with: labelString ?? "N/A")
         
         let scale = CGAffineTransform.identity.scaledBy(x: bounds.width, y: bounds.height)
-        let transform = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -1)
-        let bgRect = prediction.boundingBox.applying(transform).applying(scale)
+//        let transform = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -1)
+        
+        if prediction.projectedPoints.isEmpty {
+            return
+        }
+        
+        print(prediction.projectedPoints.last!)
+        let bgRect = CGRect(x: prediction.projectedPoints.last!.x, y: prediction.projectedPoints.last!.y, width: 10, height: 10)
         
         let bgView = UIView(frame: bgRect)
         bgView.layer.borderColor = color.cgColor
