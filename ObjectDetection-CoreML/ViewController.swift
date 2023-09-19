@@ -152,6 +152,7 @@ extension ViewController {
 //            print(predictions.first?.labels.first?.identifier ?? "nil")
 //            print(predictions.first?.labels.first?.confidence ?? -1)
             
+            
             self.predictions = predictions
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = predictions
@@ -223,6 +224,15 @@ class MovingAverageFilter {
         guard !arr.isEmpty else { return 0 }
         let sum = arr.reduce(0) { $0 + $1 }
         return Int(Double(sum) / Double(arr.count))
+    }
+    
+    func requiredLabelsExist() -> Bool {
+        let targetLabels = ["person", "sports ball"]
+        let filteredObservations = observations.filter { observation in
+            return observation.labels.contains { label in
+                return targetLabels.contains(label.identifier)
+            }
+        }
     }
 }
 
