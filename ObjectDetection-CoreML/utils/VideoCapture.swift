@@ -21,7 +21,7 @@ public class VideoCapture: NSObject {
     
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureVideoDataOutput()
-    let queue = DispatchQueue(label: "com.tucan9389.camera-queue")
+    let queue = DispatchQueue(label: "com.Ventii.camera-queue")
     
     var lastTimestamp = CMTime()
     
