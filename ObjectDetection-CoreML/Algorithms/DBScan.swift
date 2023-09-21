@@ -48,14 +48,8 @@ class DBScan {
         return clusters
     }
 
-    func regionQuery(_ array: [Double], point: Double, epsilon: Double) -> [Double] {
+    static func regionQuery(_ array: [Double], point: Double, epsilon: Double) -> [Double] {
         return array.filter { abs($0 - point) <= epsilon }
     }
-
-    let array = [2.1, 2.2, 2.4, 4.1, 4.3, 10.0, 10.2]
-    let epsilon = 0.3
-    let minPts = 2
-    let clusters = dbscan(array, epsilon: epsilon, minPts: minPts)
-    print(clusters) // Output: [[2.1, 2.2], [4.1, 4.3], [10.0, 10.2]]
 
 }

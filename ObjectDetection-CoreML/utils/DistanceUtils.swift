@@ -10,22 +10,19 @@ import Foundation
 
 class DistanceUtils {
     static func getCenterOfGravity(playersXAxis: [Double]) -> Double? {
-        if playersXAxis.count  { return nil }
-        let kMinCluster = kMeans(points: playersXAxis, k: 5, iterations: 4)
-        let mostOccuredNumber = mostFrequentElement(in: kMinCluster)
+        if playersXAxis.isEmpty  { return nil }
+        let dbClusters = DBScan.dbscan(playersXAxis, epsilon: 0.07, minPts: 1)
+                
+        let largestGroupOfPlayersPositions = dbClusters.max(by: { $0.count < $1.count })
         
-        if mostOccuredNumber == nil { return nil }
-        
-        var largestGroupOfPlayersPositions = [Double]()
-        
-        for (index, element) in kMinCluster.enumerated() {
-            if element == mostOccuredNumber {
-                largestGroupOfPlayersPositions.append(playersXAxis[index])
-            }
+        if largestGroupOfPlayersPositions == nil {
+            return nil
         }
         
-        let sum = largestGroupOfPlayersPositions.reduce(0, +)
-        let count = Double(largestGroupOfPlayersPositions.count)
+        let sum = largestGroupOfPlayersPositions!.reduce(0, +)
+        let count = Double(largestGroupOfPlayersPositions!.count)
+        
+        print("yyyyyy \(playersXAxis), \(dbClusters), \(largestGroupOfPlayersPositions!), \(sum/count)")
         return sum / count
         
     }

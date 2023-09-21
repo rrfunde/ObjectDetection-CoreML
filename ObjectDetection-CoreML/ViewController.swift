@@ -234,15 +234,11 @@ extension ViewController {
     func filterRecognizedObjects(byLabels observations: [VNRecognizedObjectObservation]) -> [VNRecognizedObjectObservation] {
         let allowedLabels = ["person", "sports ball"]
 
-        var filteredObservations: [VNRecognizedObjectObservation] = []
-        
-        for observation in observations {
+        let filteredObservations = observations.filter { observation in
             for labelObservation in observation.labels {
-                if allowedLabels.contains(labelObservation.identifier) {
-                    filteredObservations.append(observation)
-                    break  // Skip to the next observation once a match is found
-                }
+                return allowedLabels.contains(labelObservation.identifier)
             }
+            return false
         }
         
         return filteredObservations
