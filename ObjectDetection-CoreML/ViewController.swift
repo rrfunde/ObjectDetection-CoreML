@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     // MARK: - UI Properties
     @IBOutlet weak var videoPreview: UIView!
     @IBOutlet weak var boxesView: DrawingBoundingBoxView!
-    @IBOutlet weak var labelsTableView: UITableView!
     
     @IBOutlet weak var inferenceLabel: UILabel!
     @IBOutlet weak var etimeLabel: UILabel!
@@ -40,6 +39,7 @@ class ViewController: UIViewController {
     let semaphore = DispatchSemaphore(value: 1)
     var lastExecution = Date()
     
+    
     // MARK: - TableView Data
     var predictions: [VNRecognizedObjectObservation] = []
     
@@ -49,6 +49,18 @@ class ViewController: UIViewController {
     let maf1 = MovingAverageFilter()
     let maf2 = MovingAverageFilter()
     let maf3 = MovingAverageFilter()
+    
+    
+    @IBAction func recordingStarted(_ sender: Any) {
+        videoCapture._captureState = .start
+        UIApplication.shared.isIdleTimerDisabled = true
+    }
+    
+    
+    @IBAction func recordingStopped(_ sender: Any) {
+        videoCapture._captureState = .end
+        UIApplication.shared.isIdleTimerDisabled = false
+    }
     
     // MARK: - View Controller Life Cycle
     override func viewDidLoad() {
@@ -158,7 +170,7 @@ extension ViewController {
             
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = filteredPredictions
-                self.labelsTableView.reloadData()
+//                self.labelsTableView.reloadData()
 
                 // end of measure
                 self.👨‍🔧.🎬🤚()
