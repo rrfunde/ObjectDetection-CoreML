@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D066BF22AB19FDC00F6C81C /* yolov8x.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 1D066BF12AB19FDC00F6C81C /* yolov8x.mlpackage */; };
+		1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D350AF62ABC21B900A6BF2B /* DBScan.swift */; };
 		1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */; };
 		1D8CCF1F2ABC04E200168792 /* DistanceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */; };
 		553366C62204898800A67647 /* ObjectDetection_CoreMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553366C52204898800A67647 /* ObjectDetection_CoreMLTests.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		1D066BF12AB19FDC00F6C81C /* yolov8x.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x.mlpackage; sourceTree = "<group>"; };
+		1D350AF62ABC21B900A6BF2B /* DBScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBScan.swift; sourceTree = "<group>"; };
 		1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeanCluster.swift; sourceTree = "<group>"; };
 		1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceUtils.swift; sourceTree = "<group>"; };
 		553366C32204898800A67647 /* ObjectDetection-CoreMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectDetection-CoreMLTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */,
+				1D350AF62ABC21B900A6BF2B /* DBScan.swift */,
 			);
 			path = Algorithms;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				558918ED2208218800F182BA /* DrawingBoundingBoxView.swift in Sources */,
 				1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */,
 				553366CF220489DD00A67647 /* UIImage+CVPixelBuffer.swift in Sources */,
+				1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */,
 				1D066BF22AB19FDC00F6C81C /* yolov8x.mlpackage in Sources */,
 				554F14AE220362DA00B828B0 /* VideoCapture.swift in Sources */,
 				554F149C220362AB00B828B0 /* AppDelegate.swift in Sources */,

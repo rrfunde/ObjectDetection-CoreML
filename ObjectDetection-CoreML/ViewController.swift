@@ -152,10 +152,12 @@ extension ViewController {
 //            print(predictions.first?.labels.first?.identifier ?? "nil")
 //            print(predictions.first?.labels.first?.confidence ?? -1)
             
+            let filteredPredictions = filterRecognizedObjects(byLabels: predictions)
             
-            self.predictions = predictions
+            self.predictions = filteredPredictions
+            
             DispatchQueue.main.async {
-                self.boxesView.predictedObjects = predictions
+                self.boxesView.predictedObjects = filteredPredictions
                 self.labelsTableView.reloadData()
 
                 // end of measure
@@ -225,15 +227,24 @@ class MovingAverageFilter {
         let sum = arr.reduce(0) { $0 + $1 }
         return Int(Double(sum) / Double(arr.count))
     }
-    
-    func requiredLabelsExist() -> Bool {
-        let targetLabels = ["person", "sports ball"]
-        let filteredObservations = observations.filter { observation in
-            return observation.labels.contains { label in
-                return targetLabels.contains(label.identifier)
-            }
-        }
-    }
 }
 
 
+extension ViewController {
+    func filterRecognizedObjects(byLabels observations: [VNRecognizedObjectObservation]) -> [VNRecognizedObjectObservation] {
+        let allowedLabels = ["person", "sports ball"]
+
+        var filteredObservations: [VNRecognizedObjectObservation] = []
+        
+        for observation in observations {
+            for labelObservation in observation.labels {
+                if allowedLabels.contains(labelObservation.identifier) {
+                    filteredObservations.append(observation)
+                    break  // Skip to the next observation once a match is found
+                }
+            }
+        }
+        
+        return filteredObservations
+    }
+}
