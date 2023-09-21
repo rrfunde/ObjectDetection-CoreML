@@ -3,7 +3,7 @@
 //  SSDMobileNet-CoreML
 //
 //  Created by GwakDoyoung on 04/02/2019.
-//  Copyright © 2019 tucan9389. All rights reserved.
+//  Copyright © 2019 Ventii. All rights reserved.
 //
 
 import UIKit
@@ -36,6 +36,10 @@ class DrawingBoundingBoxView: UIView {
         for prediction in predictions {
             createLabelAndBox(prediction: prediction)
         }
+        
+        
+        print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(DistanceUtils.getCenterOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX }))")
+
     }
     
     func createLabelAndBox(prediction: VNRecognizedObjectObservation) {

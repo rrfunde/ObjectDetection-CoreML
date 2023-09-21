@@ -3,7 +3,7 @@
 //  SSDMobileNet-CoreML
 //
 //  Created by GwakDoyoung on 01/02/2019.
-//  Copyright © 2019 tucan9389. All rights reserved.
+//  Copyright © 2019 Ventii. All rights reserved.
 //
 
 import UIKit
@@ -152,9 +152,12 @@ extension ViewController {
 //            print(predictions.first?.labels.first?.identifier ?? "nil")
 //            print(predictions.first?.labels.first?.confidence ?? -1)
             
-            self.predictions = predictions
+            let filteredPredictions = filterRecognizedObjects(byLabels: predictions)
+            
+            self.predictions = filteredPredictions
+            
             DispatchQueue.main.async {
-                self.boxesView.predictedObjects = predictions
+                self.boxesView.predictedObjects = filteredPredictions
                 self.labelsTableView.reloadData()
 
                 // end of measure
@@ -227,3 +230,17 @@ class MovingAverageFilter {
 }
 
 
+extension ViewController {
+    func filterRecognizedObjects(byLabels observations: [VNRecognizedObjectObservation]) -> [VNRecognizedObjectObservation] {
+        let allowedLabels = ["person", "sports ball"]
+
+        let filteredObservations = observations.filter { observation in
+            for labelObservation in observation.labels {
+                return allowedLabels.contains(labelObservation.identifier)
+            }
+            return false
+        }
+        
+        return filteredObservations
+    }
+}

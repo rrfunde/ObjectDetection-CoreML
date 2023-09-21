@@ -3,11 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1D066BF22AB19FDC00F6C81C /* yolov8x.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 1D066BF12AB19FDC00F6C81C /* yolov8x.mlpackage */; };
+		1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D350AF62ABC21B900A6BF2B /* DBScan.swift */; };
+		1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */; };
+		1D8CCF1F2ABC04E200168792 /* DistanceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */; };
 		553366C62204898800A67647 /* ObjectDetection_CoreMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553366C52204898800A67647 /* ObjectDetection_CoreMLTests.swift */; };
 		553366CF220489DD00A67647 /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553366CE220489DD00A67647 /* UIImage+CVPixelBuffer.swift */; };
 		554F149C220362AB00B828B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554F149B220362AB00B828B0 /* AppDelegate.swift */; };
@@ -34,6 +37,9 @@
 
 /* Begin PBXFileReference section */
 		1D066BF12AB19FDC00F6C81C /* yolov8x.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x.mlpackage; sourceTree = "<group>"; };
+		1D350AF62ABC21B900A6BF2B /* DBScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBScan.swift; sourceTree = "<group>"; };
+		1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeanCluster.swift; sourceTree = "<group>"; };
+		1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceUtils.swift; sourceTree = "<group>"; };
 		553366C32204898800A67647 /* ObjectDetection-CoreMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectDetection-CoreMLTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		553366C52204898800A67647 /* ObjectDetection_CoreMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetection_CoreMLTests.swift; sourceTree = "<group>"; };
 		553366C72204898800A67647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,6 +75,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D8CCF1D2ABBF6EB00168792 /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */,
+				1D350AF62ABC21B900A6BF2B /* DBScan.swift */,
+			);
+			path = Algorithms;
+			sourceTree = "<group>";
+		};
 		553366C42204898800A67647 /* ObjectDetection-CoreMLTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +119,8 @@
 				554F149B220362AB00B828B0 /* AppDelegate.swift */,
 				554F149D220362AB00B828B0 /* ViewController.swift */,
 				558918EC2208218800F182BA /* DrawingBoundingBoxView.swift */,
-				71B8322322E2B0BC00207D05 /* ultils */,
+				71B8322322E2B0BC00207D05 /* utils */,
+				1D8CCF1D2ABBF6EB00168792 /* Algorithms */,
 				71B8322222E2B0B200207D05 /* mlmodel */,
 				554F14A2220362AC00B828B0 /* Assets.xcassets */,
 				554F14A4220362AC00B828B0 /* LaunchScreen.storyboard */,
@@ -121,14 +137,15 @@
 			path = mlmodel;
 			sourceTree = "<group>";
 		};
-		71B8322322E2B0BC00207D05 /* ultils */ = {
+		71B8322322E2B0BC00207D05 /* utils */ = {
 			isa = PBXGroup;
 			children = (
 				554F14AD220362DA00B828B0 /* VideoCapture.swift */,
 				558918EE22089FFE00F182BA /* Measure.swift */,
 				553366CE220489DD00A67647 /* UIImage+CVPixelBuffer.swift */,
+				1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */,
 			);
-			path = ultils;
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,7 +194,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = tucan9389;
+				ORGANIZATIONNAME = Ventii;
 				TargetAttributes = {
 					553366C22204898800A67647 = {
 						CreatedOnToolsVersion = 10.1;
@@ -189,7 +206,7 @@
 				};
 			};
 			buildConfigurationList = 554F1493220362AB00B828B0 /* Build configuration list for PBXProject "ObjectDetection-CoreML" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -243,9 +260,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				554F149E220362AB00B828B0 /* ViewController.swift in Sources */,
+				1D8CCF1F2ABC04E200168792 /* DistanceUtils.swift in Sources */,
 				558918EF22089FFE00F182BA /* Measure.swift in Sources */,
 				558918ED2208218800F182BA /* DrawingBoundingBoxView.swift in Sources */,
+				1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */,
 				553366CF220489DD00A67647 /* UIImage+CVPixelBuffer.swift in Sources */,
+				1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */,
 				1D066BF22AB19FDC00F6C81C /* yolov8x.mlpackage in Sources */,
 				554F14AE220362DA00B828B0 /* VideoCapture.swift in Sources */,
 				554F149C220362AB00B828B0 /* AppDelegate.swift in Sources */,
