@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var inferenceLabel: UILabel!
     @IBOutlet weak var etimeLabel: UILabel!
     @IBOutlet weak var fpsLabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
     
     // MARK - Core ML model
     // YOLOv3(iOS12+), YOLOv3FP16(iOS12+), YOLOv3Int8LUT(iOS12+)
@@ -54,12 +56,16 @@ class ViewController: UIViewController {
     @IBAction func recordingStarted(_ sender: Any) {
         videoCapture._captureState = .start
         UIApplication.shared.isIdleTimerDisabled = true
+        startButton.setTitle("started", for: .normal)
+        stopButton.setTitle("stop", for: .normal)
     }
     
     
     @IBAction func recordingStopped(_ sender: Any) {
         videoCapture._captureState = .end
         UIApplication.shared.isIdleTimerDisabled = false
+        startButton.setTitle("start", for: .normal)
+        stopButton.setTitle("stopped", for: .normal)
     }
     
     // MARK: - View Controller Life Cycle
