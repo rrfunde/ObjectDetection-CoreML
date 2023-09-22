@@ -198,10 +198,12 @@
 				TargetAttributes = {
 					553366C22204898800A67647 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = "";
 						TestTargetID = 554F1497220362AB00B828B0;
 					};
 					554F1497220362AB00B828B0 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = "";
 					};
 				};
 			};

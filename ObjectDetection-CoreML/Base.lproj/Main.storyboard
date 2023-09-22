@@ -78,7 +78,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69L-PH-M8p" userLabel="Button View">
-                                <rect key="frame" x="59" y="308" width="140" height="60"/>
+                                <rect key="frame" x="59" y="308" width="160" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YCS-IJ-fka" userLabel="Start Button">
                                         <rect key="frame" x="10" y="15" width="62" height="35"/>
@@ -110,7 +110,7 @@
                                     <constraint firstAttribute="bottom" secondItem="y3m-gk-kR7" secondAttribute="bottom" constant="10" id="Q1n-52-QJe"/>
                                     <constraint firstAttribute="bottom" secondItem="YCS-IJ-fka" secondAttribute="bottom" constant="10" id="dP5-cj-x3H"/>
                                     <constraint firstAttribute="height" constant="60" id="s64-xy-VeP"/>
-                                    <constraint firstAttribute="width" constant="140" id="w0h-HK-bdA"/>
+                                    <constraint firstAttribute="width" constant="160" id="w0h-HK-bdA"/>
                                 </constraints>
                             </view>
                         </subviews>
