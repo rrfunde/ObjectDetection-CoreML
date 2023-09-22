@@ -107,7 +107,7 @@ class ViewController: UIViewController {
         videoCapture = VideoCapture()
         videoCapture.delegate = self
         videoCapture.fps = 30
-        videoCapture.setUp(sessionPreset: .vga640x480) { success in
+        videoCapture.setUp(sessionPreset: .iFrame1280x720) { success in
             
             if success {
                 // add preview view on the layer
