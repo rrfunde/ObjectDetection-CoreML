@@ -130,6 +130,8 @@
                         <outlet property="etimeLabel" destination="9ZV-Kc-mOq" id="73G-oz-DYs"/>
                         <outlet property="fpsLabel" destination="Zgq-QP-6fm" id="gGI-kb-xyD"/>
                         <outlet property="inferenceLabel" destination="N38-sj-CDC" id="uSG-Qg-PyI"/>
+                        <outlet property="startButton" destination="YCS-IJ-fka" id="jqk-Qm-i13"/>
+                        <outlet property="stopButton" destination="y3m-gk-kR7" id="TKJ-sr-GeJ"/>
                         <outlet property="videoPreview" destination="UrN-1E-L02" id="nnD-GY-0P1"/>
                     </connections>
                 </viewController>

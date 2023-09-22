@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "asyncbluetooth",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/manolofdez/AsyncBluetooth",
+      "state" : {
+        "revision" : "9a10994408f7044193428feec14e7962b2e87633",
+        "version" : "1.8.0"
+      }
+    },
+    {
+      "identity" : "boostblekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bricklife/BoostBLEKit",
+      "state" : {
+        "revision" : "04f0cb8284adbf972e19b93def9b23a1d98692be",
+        "version" : "3.5.0"
+      }
+    }
+  ],
+  "version" : 2
+}

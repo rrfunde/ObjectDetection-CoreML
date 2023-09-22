@@ -11,6 +11,10 @@
 		1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D350AF62ABC21B900A6BF2B /* DBScan.swift */; };
 		1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */; };
 		1D8CCF1F2ABC04E200168792 /* DistanceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */; };
+		1DDBAE452ABD8F14005DE9B9 /* AsyncBluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 1DDBAE442ABD8F14005DE9B9 /* AsyncBluetooth */; };
+		1DDBAE482ABD8F37005DE9B9 /* BoostBLEKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1DDBAE472ABD8F37005DE9B9 /* BoostBLEKit */; };
+		1DDBAE4C2ABD91C1005DE9B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBAE4A2ABD91C0005DE9B9 /* ContentView.swift */; };
+		1DDBAE4D2ABD91C1005DE9B9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBAE4B2ABD91C0005DE9B9 /* ViewModel.swift */; };
 		553366C62204898800A67647 /* ObjectDetection_CoreMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553366C52204898800A67647 /* ObjectDetection_CoreMLTests.swift */; };
 		553366CF220489DD00A67647 /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553366CE220489DD00A67647 /* UIImage+CVPixelBuffer.swift */; };
 		554F149C220362AB00B828B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554F149B220362AB00B828B0 /* AppDelegate.swift */; };
@@ -40,6 +44,8 @@
 		1D350AF62ABC21B900A6BF2B /* DBScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBScan.swift; sourceTree = "<group>"; };
 		1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeanCluster.swift; sourceTree = "<group>"; };
 		1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceUtils.swift; sourceTree = "<group>"; };
+		1DDBAE4A2ABD91C0005DE9B9 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1DDBAE4B2ABD91C0005DE9B9 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		553366C32204898800A67647 /* ObjectDetection-CoreMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectDetection-CoreMLTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		553366C52204898800A67647 /* ObjectDetection_CoreMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetection_CoreMLTests.swift; sourceTree = "<group>"; };
 		553366C72204898800A67647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,6 +75,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DDBAE452ABD8F14005DE9B9 /* AsyncBluetooth in Frameworks */,
+				1DDBAE482ABD8F37005DE9B9 /* BoostBLEKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +90,15 @@
 				1D350AF62ABC21B900A6BF2B /* DBScan.swift */,
 			);
 			path = Algorithms;
+			sourceTree = "<group>";
+		};
+		1DDBAE492ABD91A9005DE9B9 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				1DDBAE4A2ABD91C0005DE9B9 /* ContentView.swift */,
+				1DDBAE4B2ABD91C0005DE9B9 /* ViewModel.swift */,
+			);
+			path = Device;
 			sourceTree = "<group>";
 		};
 		553366C42204898800A67647 /* ObjectDetection-CoreMLTests */ = {
@@ -115,6 +132,7 @@
 		554F149A220362AB00B828B0 /* ObjectDetection-CoreML */ = {
 			isa = PBXGroup;
 			children = (
+				1DDBAE492ABD91A9005DE9B9 /* Device */,
 				554F149F220362AB00B828B0 /* Main.storyboard */,
 				554F149B220362AB00B828B0 /* AppDelegate.swift */,
 				554F149D220362AB00B828B0 /* ViewController.swift */,
@@ -182,6 +200,10 @@
 			dependencies = (
 			);
 			name = "ObjectDetection-CoreML";
+			packageProductDependencies = (
+				1DDBAE442ABD8F14005DE9B9 /* AsyncBluetooth */,
+				1DDBAE472ABD8F37005DE9B9 /* BoostBLEKit */,
+			);
 			productName = "SSDMobileNet-CoreML";
 			productReference = 554F1498220362AB00B828B0 /* ObjectDetection-CoreML.app */;
 			productType = "com.apple.product-type.application";
@@ -216,6 +238,10 @@
 				Base,
 			);
 			mainGroup = 554F148F220362AB00B828B0;
+			packageReferences = (
+				1DDBAE432ABD8F14005DE9B9 /* XCRemoteSwiftPackageReference "AsyncBluetooth" */,
+				1DDBAE462ABD8F37005DE9B9 /* XCRemoteSwiftPackageReference "BoostBLEKit" */,
+			);
 			productRefGroup = 554F1499220362AB00B828B0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -262,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				554F149E220362AB00B828B0 /* ViewController.swift in Sources */,
+				1DDBAE4C2ABD91C1005DE9B9 /* ContentView.swift in Sources */,
 				1D8CCF1F2ABC04E200168792 /* DistanceUtils.swift in Sources */,
 				558918EF22089FFE00F182BA /* Measure.swift in Sources */,
 				558918ED2208218800F182BA /* DrawingBoundingBoxView.swift in Sources */,
@@ -270,6 +297,7 @@
 				1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */,
 				1D066BF22AB19FDC00F6C81C /* yolov8x.mlpackage in Sources */,
 				554F14AE220362DA00B828B0 /* VideoCapture.swift in Sources */,
+				1DDBAE4D2ABD91C1005DE9B9 /* ViewModel.swift in Sources */,
 				554F149C220362AB00B828B0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -536,6 +564,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1DDBAE432ABD8F14005DE9B9 /* XCRemoteSwiftPackageReference "AsyncBluetooth" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/manolofdez/AsyncBluetooth";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.0;
+			};
+		};
+		1DDBAE462ABD8F37005DE9B9 /* XCRemoteSwiftPackageReference "BoostBLEKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bricklife/BoostBLEKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1DDBAE442ABD8F14005DE9B9 /* AsyncBluetooth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1DDBAE432ABD8F14005DE9B9 /* XCRemoteSwiftPackageReference "AsyncBluetooth" */;
+			productName = AsyncBluetooth;
+		};
+		1DDBAE472ABD8F37005DE9B9 /* BoostBLEKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1DDBAE462ABD8F37005DE9B9 /* XCRemoteSwiftPackageReference "BoostBLEKit" */;
+			productName = BoostBLEKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 554F1490220362AB00B828B0 /* Project object */;
 }
