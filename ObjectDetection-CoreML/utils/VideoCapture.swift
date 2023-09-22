@@ -38,7 +38,7 @@ public class VideoCapture: NSObject {
     }
      var _captureState = _CaptureState.idle
     
-    public func setUp(sessionPreset: AVCaptureSession.Preset = .vga640x480,
+    public func setUp(sessionPreset: AVCaptureSession.Preset = .iFrame1280x720,
                       completion: @escaping (Bool) -> Void) {
         self.setUpCamera(sessionPreset: sessionPreset, completion: { success in
             completion(success)
@@ -68,7 +68,7 @@ public class VideoCapture: NSObject {
         }
         
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspect
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         previewLayer.connection?.videoOrientation = .landscapeLeft
         self.previewLayer = previewLayer
         
