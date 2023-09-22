@@ -20,14 +20,16 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>connect device</string>
 	<key>NSCameraUsageDescription</key>
 	<string>for inference</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>save video</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>save video</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
