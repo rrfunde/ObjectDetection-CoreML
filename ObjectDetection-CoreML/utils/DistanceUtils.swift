@@ -32,7 +32,6 @@ class DistanceUtils {
         
     }
     
-    
     static func rotationInfo(largestGroupMidX: Double) -> RotateInfo? {
         let timeToRotate180 = 2.1
         let angel10DegreeRotationTime = 0.116

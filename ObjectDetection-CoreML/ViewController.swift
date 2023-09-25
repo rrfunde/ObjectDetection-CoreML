@@ -191,7 +191,7 @@ extension ViewController {
                 
                 if centerOfGravity != nil {
                     let rotationInfo = DistanceUtils.rotationInfo(largestGroupMidX: centerOfGravity!)
-                    if rotationInfo != nil {
+                    if rotationInfo != nil && videoCapture._captureState == .capturing {
                         deviceUtils?.rotate(rotationInfo: rotationInfo!)
                     }
                 }
