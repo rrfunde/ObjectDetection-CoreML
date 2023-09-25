@@ -13,19 +13,11 @@ import BoostBLEKit
 private let serviceUuid = CBUUID(string: GATT.serviceUuid)
 private let characteristicUuid = CBUUID(string: GATT.characteristicUuid)
 
-enum Port: UInt8 {
-    case A
-    case B
-    case C
-    case D
-}
-
 @MainActor
 class ViewModel: ObservableObject {
     @Published var isScanning = false
     @Published var peripheral: Peripheral?
-    @Published var power: Int = 0
-    
+
     private let centralManager = CentralManager()
     private var characteristic: Characteristic?
     
@@ -76,7 +68,6 @@ class ViewModel: ObservableObject {
     func disconnect() {
         Task {
             do {
-                power = 0
                 if let peripheral = peripheral {
                     self.peripheral = nil
                     try await centralManager.cancelPeripheralConnection(peripheral)
@@ -87,35 +78,22 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func increment() {
-        setPower(min(100, power + 10))
+    func rotate(rotationInfo: RotateInfo) {
+        DeviceUtils.setPower(rotationInfo.direction == .left ? -20 : 20, peripheral: peripheral, characteristic: characteristic)
+        DispatchQueue.main.asyncAfter(deadline: .now() + rotationInfo.duration) {
+            self.stop()
+        }
     }
     
-    func decrement() {
-        setPower(max(-100, power - 10))
+    func start() {
+        DeviceUtils.setPower(20, peripheral: peripheral, characteristic: characteristic)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
+            self.stop()
+        }
     }
     
     func stop() {
-        setPower(0)
-    }
-    
-    func setPower(_ power: Int) {
-        self.power = power
-        let power = Int8(clamping: power)
-        sendCommand(MotorStartPowerCommand(portId: Port.A.rawValue, power: power))
-        sendCommand(MotorStartPowerCommand(portId: Port.B.rawValue, power: power))
-    }
-    
-    func sendCommand(_ command: Command) {
-        Task {
-            do {
-                if let characteristic = characteristic {
-                    try await peripheral?.writeValue(command.data, for: characteristic, type: .withoutResponse)
-                }
-            } catch {
-                print(error)
-            }
-        }
+        DeviceUtils.setPower(0, peripheral: peripheral, characteristic: characteristic)
     }
 }
 

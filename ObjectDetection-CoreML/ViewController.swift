@@ -174,6 +174,9 @@ extension ViewController {
             
             self.predictions = filteredPredictions
             
+            
+            print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(DistanceUtils.getCenterOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX }))")
+            
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = filteredPredictions
 //                self.labelsTableView.reloadData()

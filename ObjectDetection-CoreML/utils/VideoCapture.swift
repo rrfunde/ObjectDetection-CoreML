@@ -10,15 +10,19 @@ import UIKit
 import AVFoundation
 import CoreVideo
 import Photos
+import AsyncBluetooth
 
 public protocol VideoCaptureDelegate: class {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame: CVPixelBuffer?, timestamp: CMTime)
 }
 
 public class VideoCapture: NSObject {
+    var characteristic: Characteristic?
+    var peripheral: Peripheral?
+    
     public var previewLayer: AVCaptureVideoPreviewLayer?
     public weak var delegate: VideoCaptureDelegate?
-    public var fps = 5
+    public var fps = 1
     
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureVideoDataOutput()

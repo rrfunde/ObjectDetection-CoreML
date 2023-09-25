@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum RotationDirection {
+    case left
+    case right
+}
+
 class DistanceUtils {
     static func getCenterOfGravity(playersXAxis: [Double]) -> Double? {
         if playersXAxis.isEmpty  { return nil }
@@ -27,22 +32,22 @@ class DistanceUtils {
         
     }
     
-    static func mostFrequentElement<T: Hashable>(in array: [T]) -> T? {
-        var frequencyDict: [T: Int] = [:]
-        var maxCount = 0
-        var mostFrequentElement: T?
+    
+    static func rotate(largestGroupMidX: Double) -> RotateInfo? {
+        let timeToRotate180 = 2.1
+        let angel10DegreeRotationTime = 0.116
+        let angel10DegreeXAxisDistance = 0.0555
+        let midXAxis = 0.5
         
-        for element in array {
-            let count = (frequencyDict[element] ?? 0) + 1
-            frequencyDict[element] = count
-            
-            if count > maxCount {
-                maxCount = count
-                mostFrequentElement = element
-            }
-        }
+        let distanceFromTheMiddleX = abs(midXAxis - largestGroupMidX)
         
-        return mostFrequentElement
+        let distanceDiffIn10Degree = distanceFromTheMiddleX / angel10DegreeXAxisDistance
+        
+        let rotationTimeNeeded = distanceDiffIn10Degree * angel10DegreeRotationTime
+        
+        let rotationDirection = largestGroupMidX < midXAxis ? RotationDirection.left : RotationDirection.right
+        
+        
+        return RotateInfo(direction: rotationDirection, angel: distanceDiffIn10Degree * 10, duration: rotationTimeNeeded > angel10DegreeRotationTime ? rotationTimeNeeded : 0.0)
     }
-
 }

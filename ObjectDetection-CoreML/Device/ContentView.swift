@@ -32,22 +32,22 @@ struct ContentView: View {
                 }
             }
             
-            Group {
-                Text("\(viewModel.power)")
-                
-                HStack {
-                    Button(action: { viewModel.decrement() }) {
-                        Image(systemName: "minus.circle")
-                    }
-                    Button(action: { viewModel.stop() }) {
-                        Image(systemName: "stop.circle")
-                    }
-                    Button(action: { viewModel.increment() }) {
-                        Image(systemName: "plus.circle")
-                    }
-                }
-            }
-            .font(.system(size: 64))
+//            Group {
+//                Text("20")
+//                
+//                HStack {
+//                    Button(action: { viewModel.decrement() }) {
+//                        Image(systemName: "minus.circle")
+//                    }
+//                    Button(action: { viewModel.stop() }) {
+//                        Image(systemName: "stop.circle")
+//                    }
+//                    Button(action: { viewModel.increment() }) {
+//                        Image(systemName: "plus.circle")
+//                    }
+//                }
+//            }
+//            .font(.system(size: 64))
         }
     }
 }

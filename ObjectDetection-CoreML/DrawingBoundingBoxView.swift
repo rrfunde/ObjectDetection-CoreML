@@ -36,10 +36,6 @@ class DrawingBoundingBoxView: UIView {
         for prediction in predictions {
             createLabelAndBox(prediction: prediction)
         }
-        
-        
-        print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(DistanceUtils.getCenterOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX }))")
-
     }
     
     func createLabelAndBox(prediction: VNRecognizedObjectObservation) {
