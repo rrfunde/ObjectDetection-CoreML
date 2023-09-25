@@ -183,16 +183,19 @@ extension ViewController {
             
             self.predictions = filteredPredictions
             
-            let centerOfGravity = DistanceUtils.centerOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX })
-            print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
+            print("zzzzzzz \(filteredPredictions.map { $0.label })")
             
-            if centerOfGravity != nil {
-                let rotationInfo = DistanceUtils.rotationInfo(largestGroupMidX: centerOfGravity!)
-                if rotationInfo != nil {
-                    deviceUtils?.rotate(rotationInfo: rotationInfo!)
+            if filteredPredictions.count > 0 {
+                let centerOfGravity = DistanceUtils.centerOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX })
+                print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
+                
+                if centerOfGravity != nil {
+                    let rotationInfo = DistanceUtils.rotationInfo(largestGroupMidX: centerOfGravity!)
+                    if rotationInfo != nil {
+                        deviceUtils?.rotate(rotationInfo: rotationInfo!)
+                    }
                 }
             }
-            
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = filteredPredictions
 //                self.labelsTableView.reloadData()
@@ -269,7 +272,7 @@ class MovingAverageFilter {
 
 extension ViewController {
     func filterRecognizedObjects(byLabels observations: [VNRecognizedObjectObservation]) -> [VNRecognizedObjectObservation] {
-        let allowedLabels = ["person", "sports ball"]
+        let allowedLabels = ["person"]
 
         let filteredObservations = observations.filter { observation in
             for labelObservation in observation.labels {

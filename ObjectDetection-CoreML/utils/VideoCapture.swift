@@ -71,7 +71,7 @@ public class VideoCapture: NSObject {
         
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        previewLayer.connection?.videoOrientation = .landscapeLeft
+        previewLayer.connection?.videoOrientation = .landscapeRight
         self.previewLayer = previewLayer
         
         let settings: [String : Any] = [
@@ -87,7 +87,7 @@ public class VideoCapture: NSObject {
         
         // We want the buffers to be in portrait orientation otherwise they are
         // rotated by 90 degrees. Need to set this _after_ addOutput()!
-        videoOutput.connection(with: AVMediaType.video)?.videoOrientation = .landscapeLeft
+        videoOutput.connection(with: AVMediaType.video)?.videoOrientation = .landscapeRight
         
         captureSession.commitConfiguration()
         
