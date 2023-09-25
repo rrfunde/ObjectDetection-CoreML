@@ -18,13 +18,28 @@ enum Port: UInt8 {
 }
 
 class DeviceUtils {
-    static func setPower(_ power: Int, peripheral: Peripheral?, characteristic: Characteristic?) {
-        let power = Int8(clamping: power)
-        sendCommand(MotorStartPowerCommand(portId: Port.A.rawValue, power: power), peripheral: peripheral, characteristic: characteristic)
-        sendCommand(MotorStartPowerCommand(portId: Port.B.rawValue, power: power), peripheral: peripheral, characteristic: characteristic)
+    let characteristic: Characteristic?
+    let peripheral: Peripheral?
+    
+    init(characteristic: Characteristic?, peripheral: Peripheral?) {
+        self.characteristic = characteristic
+        self.peripheral = peripheral
     }
     
-    static func sendCommand(_ command: Command, peripheral: Peripheral?, characteristic: Characteristic?) {
+     func rotate(rotationInfo: RotateInfo) {
+        setPower(rotationInfo.direction == .left ? -20 : 20)
+        DispatchQueue.main.asyncAfter(deadline: .now() + rotationInfo.duration) {
+            self.stop()
+        }
+    }
+    
+     func setPower(_ power: Int) {
+        let power = Int8(clamping: power)
+        sendCommand(MotorStartPowerCommand(portId: Port.A.rawValue, power: power))
+        sendCommand(MotorStartPowerCommand(portId: Port.B.rawValue, power: power))
+    }
+    
+     func sendCommand(_ command: Command) {
         Task {
             do {
                 if let characteristic = characteristic {
@@ -35,4 +50,9 @@ class DeviceUtils {
             }
         }
     }
+    
+     func stop() {
+        setPower(0)
+    }
+    
 }

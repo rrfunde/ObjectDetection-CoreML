@@ -11,6 +11,7 @@
 		1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D350AF62ABC21B900A6BF2B /* DBScan.swift */; };
 		1D43B3B82AC179EE00B35647 /* RotateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43B3B72AC179EE00B35647 /* RotateInfo.swift */; };
 		1D43B3BA2AC187FA00B35647 /* DeviceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43B3B92AC187FA00B35647 /* DeviceUtils.swift */; };
+		1D43B3BC2AC18FA900B35647 /* LazyNavitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43B3BB2AC18FA900B35647 /* LazyNavitationView.swift */; };
 		1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */; };
 		1D8CCF1F2ABC04E200168792 /* DistanceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */; };
 		1DDBAE452ABD8F14005DE9B9 /* AsyncBluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 1DDBAE442ABD8F14005DE9B9 /* AsyncBluetooth */; };
@@ -47,6 +48,7 @@
 		1D350AF62ABC21B900A6BF2B /* DBScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBScan.swift; sourceTree = "<group>"; };
 		1D43B3B72AC179EE00B35647 /* RotateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateInfo.swift; sourceTree = "<group>"; };
 		1D43B3B92AC187FA00B35647 /* DeviceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceUtils.swift; sourceTree = "<group>"; };
+		1D43B3BB2AC18FA900B35647 /* LazyNavitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNavitationView.swift; sourceTree = "<group>"; };
 		1D8CCF1B2ABBF6D000168792 /* KMeanCluster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeanCluster.swift; sourceTree = "<group>"; };
 		1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceUtils.swift; sourceTree = "<group>"; };
 		1DDBAE4A2ABD91C0005DE9B9 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				558918EE22089FFE00F182BA /* Measure.swift */,
 				553366CE220489DD00A67647 /* UIImage+CVPixelBuffer.swift */,
 				1D8CCF1E2ABC04E200168792 /* DistanceUtils.swift */,
+				1D43B3BB2AC18FA900B35647 /* LazyNavitationView.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				1D8CCF1C2ABBF6D000168792 /* KMeanCluster.swift in Sources */,
 				553366CF220489DD00A67647 /* UIImage+CVPixelBuffer.swift in Sources */,
 				1D350AF72ABC21B900A6BF2B /* DBScan.swift in Sources */,
+				1D43B3BC2AC18FA900B35647 /* LazyNavitationView.swift in Sources */,
 				1D066BF22AB19FDC00F6C81C /* yolov8x.mlpackage in Sources */,
 				554F14AE220362DA00B828B0 /* VideoCapture.swift in Sources */,
 				1DDBAE4D2ABD91C1005DE9B9 /* ViewModel.swift in Sources */,

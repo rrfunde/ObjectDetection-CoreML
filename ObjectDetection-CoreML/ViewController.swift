@@ -9,6 +9,8 @@
 import UIKit
 import Vision
 import CoreMedia
+import AsyncBluetooth
+import BoostBLEKit
 
 class ViewController: UIViewController {
 
@@ -22,6 +24,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
+    var characteristic: Characteristic?
+    var peripheral: Peripheral?
+    private var deviceUtils: DeviceUtils?
+
     // MARK - Core ML model
     // YOLOv3(iOS12+), YOLOv3FP16(iOS12+), YOLOv3Int8LUT(iOS12+)
     // YOLOv3Tiny(iOS12+), YOLOv3TinyFP16(iOS12+), YOLOv3TinyInt8LUT(iOS12+)
@@ -37,7 +43,7 @@ class ViewController: UIViewController {
     var isInferencing = false
     
     // MARK: - AV Property
-    var videoCapture: VideoCapture!
+    var videoCapture = VideoCapture()
     let semaphore = DispatchSemaphore(value: 1)
     var lastExecution = Date()
     
@@ -80,6 +86,10 @@ class ViewController: UIViewController {
         
         // setup delegate for performance measurement
         👨‍🔧.delegate = self
+        
+        if characteristic != nil && peripheral != nil {
+            deviceUtils = DeviceUtils(characteristic: characteristic!, peripheral: peripheral!)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -110,7 +120,6 @@ class ViewController: UIViewController {
 
     // MARK: - SetUp Video
     func setUpCamera() {
-        videoCapture = VideoCapture()
         videoCapture.delegate = self
         videoCapture.fps = 30
         videoCapture.setUp(sessionPreset: .iFrame1280x720) { success in
@@ -174,8 +183,15 @@ extension ViewController {
             
             self.predictions = filteredPredictions
             
+            let centerOfGravity = DistanceUtils.centerOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX })
+            print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
             
-            print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(DistanceUtils.getCenterOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX }))")
+            if centerOfGravity != nil {
+                let rotationInfo = DistanceUtils.rotationInfo(largestGroupMidX: centerOfGravity!)
+                if rotationInfo != nil {
+                    deviceUtils?.rotate(rotationInfo: rotationInfo!)
+                }
+            }
             
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = filteredPredictions

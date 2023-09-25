@@ -17,8 +17,6 @@ public protocol VideoCaptureDelegate: class {
 }
 
 public class VideoCapture: NSObject {
-    var characteristic: Characteristic?
-    var peripheral: Peripheral?
     
     public var previewLayer: AVCaptureVideoPreviewLayer?
     public weak var delegate: VideoCaptureDelegate?

@@ -17,9 +17,11 @@ private let characteristicUuid = CBUUID(string: GATT.characteristicUuid)
 class ViewModel: ObservableObject {
     @Published var isScanning = false
     @Published var peripheral: Peripheral?
+    @Published var characteristic: Characteristic?
+
 
     private let centralManager = CentralManager()
-    private var characteristic: Characteristic?
+    private var deviceUtils: DeviceUtils?
     
     func connect() {
         Task {
@@ -38,6 +40,7 @@ class ViewModel: ObservableObject {
                         self.characteristic = try await scanData.peripheral.discoverCharacteristic()
                         print("Ready!")
                         
+                        deviceUtils = DeviceUtils(characteristic: characteristic, peripheral: peripheral)
                         break
                     } catch {
                         print(error)
@@ -78,22 +81,11 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func rotate(rotationInfo: RotateInfo) {
-        DeviceUtils.setPower(rotationInfo.direction == .left ? -20 : 20, peripheral: peripheral, characteristic: characteristic)
-        DispatchQueue.main.asyncAfter(deadline: .now() + rotationInfo.duration) {
-            self.stop()
-        }
-    }
-    
     func start() {
-        DeviceUtils.setPower(20, peripheral: peripheral, characteristic: characteristic)
+        deviceUtils?.setPower(20)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
-            self.stop()
+            self.deviceUtils?.stop()
         }
-    }
-    
-    func stop() {
-        DeviceUtils.setPower(0, peripheral: peripheral, characteristic: characteristic)
     }
 }
 

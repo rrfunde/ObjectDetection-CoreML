@@ -10,12 +10,19 @@ import Foundation
 
 import SwiftUI
 import UIKit
+import AsyncBluetooth
 
 struct MainViewControllerView: UIViewControllerRepresentable {
+    var characteristic: Characteristic
+    var peripheral: Peripheral
+    
     func makeUIViewController(context: Context) -> UIViewController {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
         if let viewController = storyboard.instantiateViewController(withIdentifier: "RecordingViewController") as? ViewController {
+            viewController.peripheral = peripheral
+            viewController.characteristic = characteristic
             return viewController
         }
         return UIViewController()

@@ -12,42 +12,36 @@ struct ContentView: View {
     @StateObject var viewModel = ViewModel()
     
     var body: some View {
-        VStack(spacing: 32) {
-            HStack() {
-                if viewModel.isScanning {
-                    Button("Scanning...") {
-                        viewModel.cancel()
-                    }
-                } else {
-                    if let name = viewModel.peripheral?.name {
-                        Button(action: { viewModel.disconnect() }) {
-                            Image(systemName: "xmark.circle.fill")
+        NavigationView {
+            VStack(spacing: 32) {
+                HStack() {
+                    if viewModel.isScanning {
+                        Button("Scanning...") {
+                            viewModel.cancel()
                         }
-                        Text(name)
                     } else {
-                        Button("Connect") {
-                            viewModel.connect()
+                        if let name = viewModel.peripheral?.name {
+                            Button(action: { viewModel.disconnect() }) {
+                                Image(systemName: "xmark.circle.fill")
+                            }
+                            Text(name)
+                        } else {
+                            Button("Connect") {
+                                viewModel.connect()
+                            }
                         }
                     }
                 }
+                
+    
+                NavigationLink(destination: NavigationLazyView(MainViewControllerView(characteristic: viewModel.characteristic!, peripheral: viewModel.peripheral!)), isActive: .constant(viewModel.peripheral != nil && viewModel.characteristic != nil)) {
+                              Text("Go to Recording Screen")
+                                  .padding()
+                                  .foregroundColor(.white)
+                                  .background(Color.blue)
+                                  .cornerRadius(8)
+                          }
             }
-            
-//            Group {
-//                Text("20")
-//                
-//                HStack {
-//                    Button(action: { viewModel.decrement() }) {
-//                        Image(systemName: "minus.circle")
-//                    }
-//                    Button(action: { viewModel.stop() }) {
-//                        Image(systemName: "stop.circle")
-//                    }
-//                    Button(action: { viewModel.increment() }) {
-//                        Image(systemName: "plus.circle")
-//                    }
-//                }
-//            }
-//            .font(.system(size: 64))
         }
     }
 }

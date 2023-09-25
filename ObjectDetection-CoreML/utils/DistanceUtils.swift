@@ -14,7 +14,7 @@ enum RotationDirection {
 }
 
 class DistanceUtils {
-    static func getCenterOfGravity(playersXAxis: [Double]) -> Double? {
+    static func centerOfGravity(playersXAxis: [Double]) -> Double? {
         if playersXAxis.isEmpty  { return nil }
         let dbClusters = DBScan.dbscan(playersXAxis, epsilon: 0.07, minPts: 1)
                 
@@ -33,7 +33,7 @@ class DistanceUtils {
     }
     
     
-    static func rotate(largestGroupMidX: Double) -> RotateInfo? {
+    static func rotationInfo(largestGroupMidX: Double) -> RotateInfo? {
         let timeToRotate180 = 2.1
         let angel10DegreeRotationTime = 0.116
         let angel10DegreeXAxisDistance = 0.0555
