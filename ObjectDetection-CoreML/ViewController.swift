@@ -307,6 +307,45 @@ extension ViewController {
         
         return filteredObservations
     }
+    
+    func pixelBufferToUIImage(pixelBuffer: CVPixelBuffer) -> UIImage? {
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let context = CIContext()
+        let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
+        
+        if let cgImage = cgImage {
+            return UIImage(cgImage: cgImage)
+        } else {
+            return nil
+        }
+    }
+
+    func saveImage(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(imageSaved(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+
+    @objc func imageSaved(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // Handle error
+            print("Error saving image: \(error)")
+        } else {
+            print("Image saved successfully")
+        }
+    }
+    
+    func drawText(on image: UIImage, text: String, at point: CGPoint) -> UIImage? {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        let backgroundRectColor = UIColor.white
+        
+        // Set time style
+        dateFormatter.timeStyle = .medium
+
+        let currentTime = dateFormatter.string(from: currentDate)
+        
+        let drawableText = currentTime + text
+        let textColor = UIColor.red
+        let textFont = UIFont.systemFont(ofSize: 40)
         
         UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
         image.draw(in: CGRect(origin: .zero, size: image.size))
