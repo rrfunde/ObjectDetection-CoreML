@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     var peripheral: Peripheral?
     private var deviceUtils: DeviceUtils?
     private var currentRotation: RotationDirection = .center
+    private var pixelBuffer: CVPixelBuffer?
 
     // MARK - Core ML model
     // YOLOv3(iOS12+), YOLOv3FP16(iOS12+), YOLOv3Int8LUT(iOS12+)
@@ -171,6 +172,8 @@ extension ViewController {
         self.semaphore.wait()
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
         try? handler.perform([request])
+        
+        self.pixelBuffer = pixelBuffer
     }
     
     // MARK: - Post-processing
@@ -196,14 +199,26 @@ extension ViewController {
 //                        _ = DistanceUtils.rotationInfo(direction: rotationDirection)
                         let nextRotationDirection = DistanceUtils.nextRotationInfo(currentRotation: currentRotation, expectedRotation: rotationDirection)
                         
-                        print("aaaaaaaax \(currentRotation), \(rotationDirection)")
+                        
+                        print("aaaaaaax \(Date().timeIntervalSince1970), \(currentRotation), \(rotationDirection)")
                         if nextRotationDirection != nil {
-                            print("aaaaaaaa \(currentRotation), \(nextRotationDirection)")
+                            print("aaaaaaaay \(Date().timeIntervalSince1970), \(currentRotation), \(nextRotationDirection!)")
                             deviceUtils?.rotate(direction: nextRotationDirection!)
+                            
+                            if self.pixelBuffer != nil, let image = pixelBufferToUIImage(pixelBuffer: pixelBuffer!) {
+                                let newImage = drawText(on: image, text: "\(currentRotation), \(rotationDirection), \(nextRotationDirection!)", at: CGPoint(x: 50, y: 50))
+                                
+                                if let newImage = newImage {
+                                    saveImage(image: newImage)
+                                }
+                            }
+                            
                         }
                         currentRotation = rotationDirection
+                    
                     }
                 }
+                
             }
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = filteredPredictions
@@ -291,5 +306,29 @@ extension ViewController {
         }
         
         return filteredObservations
+    }
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+        image.draw(in: CGRect(origin: .zero, size: image.size))
+        
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: textFont,
+            .foregroundColor: textColor
+        ]
+        
+        let textSize = drawableText.size(withAttributes: attrs)
+        let backgroundRect = CGRect(x: point.x, y: point.y, width: textSize.width, height: textSize.height)
+           
+        // Draw white background rectangle
+           let context = UIGraphicsGetCurrentContext()
+           context?.setFillColor(backgroundRectColor.cgColor)
+           context?.fill(backgroundRect)
+        
+        drawableText.draw(at: point, withAttributes: attrs)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }
