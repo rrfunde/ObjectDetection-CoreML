@@ -190,8 +190,8 @@ extension ViewController {
             print("zzzzzzz \(filteredPredictions.map { $0.label })")
             
             if filteredPredictions.count > 0 {
-                let centerOfGravity = DistanceUtils.centerOfGravity(playersXAxis: predictions.map { $0.boundingBox.midX })
-                print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
+                let centerOfGravity = DistanceUtils.centerOfGravity(playersXAxis: filteredPredictions.map { $0.boundingBox.midX })
+                print("xxxxxxxxx \(filteredPredictions.map { $0.label }), \(filteredPredictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
                 
                 if centerOfGravity != nil {
                     if videoCapture._captureState == .capturing, let rotationDirection = DistanceUtils.rotationThreeAngelInfo(largestGroupMidX: centerOfGravity!, currentRotation: currentRotation)
@@ -310,6 +310,7 @@ extension ViewController {
     
     func pixelBufferToUIImage(pixelBuffer: CVPixelBuffer) -> UIImage? {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        ciImage.oriented(.rightMirrored)
         let context = CIContext()
         let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
         
