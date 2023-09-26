@@ -20,7 +20,7 @@ public class VideoCapture: NSObject {
     
     public var previewLayer: AVCaptureVideoPreviewLayer?
     public weak var delegate: VideoCaptureDelegate?
-    public var fps = 1
+    public var fps = 15
     
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureVideoDataOutput()
@@ -117,7 +117,8 @@ extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
         // framerate.
         let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let deltaTime = timestamp - lastTimestamp
-        if deltaTime >= CMTimeMake(value: 1, timescale: Int32(fps)) {
+        if deltaTime >= CMTimeMake(value: 1, timescale: 2) {
+            print("qqqqqqqq \(cmTimeToReadableString(timestamp))")
             lastTimestamp = timestamp
             let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
             delegate?.videoCapture(self, didCaptureVideoFrame: imageBuffer, timestamp: timestamp)
@@ -189,5 +190,14 @@ private extension VideoCapture {
                 print("save failed" + error.debugDescription)
             }
         }
+    }
+    
+    func cmTimeToReadableString(_ time: CMTime) -> String {
+        let totalSeconds = CMTimeGetSeconds(time)
+        let hours = Int(totalSeconds / 3600)
+        let minutes = Int(totalSeconds / 60) % 60
+        let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
+        
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
