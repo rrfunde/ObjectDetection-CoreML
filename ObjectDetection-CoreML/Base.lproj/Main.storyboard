@@ -74,7 +74,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69L-PH-M8p" userLabel="Button View">
-                                <rect key="frame" x="59" y="308" width="200" height="60"/>
+                                <rect key="frame" x="562" y="20" width="200" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YCS-IJ-fka" userLabel="Start Button">
                                         <rect key="frame" x="10" y="15" width="62" height="35"/>
@@ -109,7 +109,9 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="UrN-1E-L02" firstAttribute="top" secondItem="0Z6-cB-tNG" secondAttribute="bottom" id="0dL-Dl-pI2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="69L-PH-M8p" secondAttribute="trailing" id="11D-FT-3ZS"/>
                             <constraint firstItem="am0-wE-ezc" firstAttribute="width" secondItem="UrN-1E-L02" secondAttribute="width" id="7i0-h6-7Pz"/>
+                            <constraint firstItem="69L-PH-M8p" firstAttribute="top" secondItem="0Z6-cB-tNG" secondAttribute="bottom" id="AXL-xs-fbg"/>
                             <constraint firstAttribute="trailing" secondItem="0Z6-cB-tNG" secondAttribute="trailing" id="Ln9-wf-BTd"/>
                             <constraint firstAttribute="bottom" secondItem="UrN-1E-L02" secondAttribute="bottom" id="O3h-4y-qIS"/>
                             <constraint firstItem="am0-wE-ezc" firstAttribute="leading" secondItem="UrN-1E-L02" secondAttribute="leading" id="OWJ-NI-con"/>
@@ -118,11 +120,9 @@
                             <constraint firstItem="am0-wE-ezc" firstAttribute="centerY" secondItem="UrN-1E-L02" secondAttribute="centerY" id="ce7-tq-XV8"/>
                             <constraint firstItem="am0-wE-ezc" firstAttribute="height" secondItem="UrN-1E-L02" secondAttribute="height" id="iIe-kK-8ri"/>
                             <constraint firstItem="UrN-1E-L02" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iVM-Iy-f8T"/>
-                            <constraint firstItem="69L-PH-M8p" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="9" id="izQ-L0-p9s"/>
                             <constraint firstItem="0Z6-cB-tNG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="m4H-Tr-oec"/>
                             <constraint firstItem="0Z6-cB-tNG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nTd-kk-Zdr"/>
                             <constraint firstAttribute="trailing" secondItem="UrN-1E-L02" secondAttribute="trailing" id="p2R-l7-Usa"/>
-                            <constraint firstAttribute="bottom" secondItem="69L-PH-M8p" secondAttribute="bottom" constant="7" id="qbt-wW-ltk"/>
                         </constraints>
                     </view>
                     <connections>

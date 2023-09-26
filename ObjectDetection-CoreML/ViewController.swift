@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     var characteristic: Characteristic?
     var peripheral: Peripheral?
     private var deviceUtils: DeviceUtils?
+    private var currentRotation: RotationDirection = .center
 
     // MARK - Core ML model
     // YOLOv3(iOS12+), YOLOv3FP16(iOS12+), YOLOv3Int8LUT(iOS12+)
@@ -190,9 +191,17 @@ extension ViewController {
                 print("xxxxxxxxx \(predictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
                 
                 if centerOfGravity != nil {
-                    let rotationInfo = DistanceUtils.rotationInfo(largestGroupMidX: centerOfGravity!)
-                    if rotationInfo != nil && videoCapture._captureState == .capturing {
-                        deviceUtils?.rotate(rotationInfo: rotationInfo!)
+                    if videoCapture._captureState == .capturing, let rotationDirection = DistanceUtils.rotationThreeAngelInfo(largestGroupMidX: centerOfGravity!, currentRotation: currentRotation)
+                    {
+//                        _ = DistanceUtils.rotationInfo(direction: rotationDirection)
+                        let nextRotationDirection = DistanceUtils.nextRotationInfo(currentRotation: currentRotation, expectedRotation: rotationDirection)
+                        
+                        print("aaaaaaaax \(currentRotation), \(rotationDirection)")
+                        if nextRotationDirection != nil {
+                            print("aaaaaaaa \(currentRotation), \(nextRotationDirection)")
+                            deviceUtils?.rotate(direction: nextRotationDirection!)
+                        }
+                        currentRotation = rotationDirection
                     }
                 }
             }

@@ -26,9 +26,9 @@ class DeviceUtils {
         self.peripheral = peripheral
     }
     
-     func rotate(rotationInfo: RotateInfo) {
-        setPower(rotationInfo.direction == .left ? -20 : 20)
-        DispatchQueue.main.asyncAfter(deadline: .now() + rotationInfo.duration) {
+    func rotate(direction: NextRotationDirection) {
+        setPower(direction == .left ? -20 : 20)
+        DispatchQueue.main.asyncAfter(deadline: .now() + DistanceUtils.timeToRotate45) {
             self.stop()
         }
     }
