@@ -9,18 +9,27 @@
 import UIKit
 import Vision
 import CoreMedia
+import AsyncBluetooth
+import BoostBLEKit
 
 class ViewController: UIViewController {
 
     // MARK: - UI Properties
     @IBOutlet weak var videoPreview: UIView!
     @IBOutlet weak var boxesView: DrawingBoundingBoxView!
-    @IBOutlet weak var labelsTableView: UITableView!
     
     @IBOutlet weak var inferenceLabel: UILabel!
     @IBOutlet weak var etimeLabel: UILabel!
     @IBOutlet weak var fpsLabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
     
+    var characteristic: Characteristic?
+    var peripheral: Peripheral?
+    private var deviceUtils: DeviceUtils?
+    var currentRotation: RotationDirection = .center
+    private var pixelBuffer: CVPixelBuffer?
+
     // MARK - Core ML model
     // YOLOv3(iOS12+), YOLOv3FP16(iOS12+), YOLOv3Int8LUT(iOS12+)
     // YOLOv3Tiny(iOS12+), YOLOv3TinyFP16(iOS12+), YOLOv3TinyInt8LUT(iOS12+)
@@ -36,9 +45,10 @@ class ViewController: UIViewController {
     var isInferencing = false
     
     // MARK: - AV Property
-    var videoCapture: VideoCapture!
+    var videoCapture = VideoCapture()
     let semaphore = DispatchSemaphore(value: 1)
     var lastExecution = Date()
+    
     
     // MARK: - TableView Data
     var predictions: [VNRecognizedObjectObservation] = []
@@ -49,6 +59,23 @@ class ViewController: UIViewController {
     let maf1 = MovingAverageFilter()
     let maf2 = MovingAverageFilter()
     let maf3 = MovingAverageFilter()
+    
+    
+    @IBAction func recordingStarted(_ sender: Any) {
+        videoCapture._captureState = .start
+        currentRotation = .center
+        UIApplication.shared.isIdleTimerDisabled = true
+        startButton.setTitle("started", for: .normal)
+        stopButton.setTitle("stop", for: .normal)
+    }
+    
+    
+    @IBAction func recordingStopped(_ sender: Any) {
+        videoCapture._captureState = .end
+        UIApplication.shared.isIdleTimerDisabled = false
+        startButton.setTitle("start", for: .normal)
+        stopButton.setTitle("stopped", for: .normal)
+    }
     
     // MARK: - View Controller Life Cycle
     override func viewDidLoad() {
@@ -62,6 +89,10 @@ class ViewController: UIViewController {
         
         // setup delegate for performance measurement
         👨‍🔧.delegate = self
+        
+        if characteristic != nil && peripheral != nil {
+            deviceUtils = DeviceUtils(characteristic: characteristic!, peripheral: peripheral!)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,10 +123,9 @@ class ViewController: UIViewController {
 
     // MARK: - SetUp Video
     func setUpCamera() {
-        videoCapture = VideoCapture()
         videoCapture.delegate = self
         videoCapture.fps = 30
-        videoCapture.setUp(sessionPreset: .vga640x480) { success in
+        videoCapture.setUp(sessionPreset: .iFrame1280x720) { success in
             
             if success {
                 // add preview view on the layer
@@ -143,6 +173,8 @@ extension ViewController {
         self.semaphore.wait()
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
         try? handler.perform([request])
+        
+        self.pixelBuffer = pixelBuffer
     }
     
     // MARK: - Post-processing
@@ -156,9 +188,47 @@ extension ViewController {
             
             self.predictions = filteredPredictions
             
+            print("zzzzzzz \(filteredPredictions.map { $0.label })")
+            
+            if filteredPredictions.count > 0 {
+                let centerOfGravity = DistanceUtils.centerOfGravity(playersXAxis: filteredPredictions.map { $0.boundingBox.midX })
+                print("xxxxxxxxx \(filteredPredictions.map { $0.label }), \(filteredPredictions.map { $0.boundingBox.midX }),  \(centerOfGravity))")
+                
+                if centerOfGravity != nil {
+                    if videoCapture._captureState == .capturing, let rotationDirection = DistanceUtils.rotationThreeAngelInfo(largestGroupMidX: centerOfGravity!, currentRotation: currentRotation)
+                    {
+//                        _ = DistanceUtils.rotationInfo(direction: rotationDirection)
+                        let nextRotationDirection = DistanceUtils.nextRotationInfo(currentRotation: currentRotation, expectedRotation: rotationDirection)
+                        
+                        let currentDate = Date()
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeStyle = .medium
+                        
+                        let currentTime = dateFormatter.string(from: currentDate)
+                        
+                        print("aaaaaaax \(currentTime), \(currentRotation), \(rotationDirection)")
+                        if nextRotationDirection != nil {
+                            print("aaaaaaaay \(currentTime), \(currentRotation), \(rotationDirection), \(nextRotationDirection!)")
+                            deviceUtils?.rotate(direction: nextRotationDirection!)
+                            
+                            if self.pixelBuffer != nil, let image = pixelBufferToUIImage(pixelBuffer: pixelBuffer!) {
+                                let newImage = drawText(on: image, text: "\(currentRotation), \(rotationDirection), \(nextRotationDirection!)", at: CGPoint(x: 50, y: 50))
+                                
+                                if let newImage = newImage {
+                                    saveImage(image: newImage)
+                                }
+                            }
+                            
+                        }
+                        currentRotation = rotationDirection
+                    
+                    }
+                }
+                
+            }
             DispatchQueue.main.async {
                 self.boxesView.predictedObjects = filteredPredictions
-                self.labelsTableView.reloadData()
+//                self.labelsTableView.reloadData()
 
                 // end of measure
                 self.👨‍🔧.🎬🤚()
@@ -232,7 +302,7 @@ class MovingAverageFilter {
 
 extension ViewController {
     func filterRecognizedObjects(byLabels observations: [VNRecognizedObjectObservation]) -> [VNRecognizedObjectObservation] {
-        let allowedLabels = ["person", "sports ball"]
+        let allowedLabels = ["person"]
 
         let filteredObservations = observations.filter { observation in
             for labelObservation in observation.labels {
@@ -242,5 +312,69 @@ extension ViewController {
         }
         
         return filteredObservations
+    }
+    
+    func pixelBufferToUIImage(pixelBuffer: CVPixelBuffer) -> UIImage? {
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        ciImage.oriented(.rightMirrored)
+        let context = CIContext()
+        let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
+        
+        if let cgImage = cgImage {
+            return UIImage(cgImage: cgImage)
+        } else {
+            return nil
+        }
+    }
+
+    func saveImage(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(imageSaved(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+
+    @objc func imageSaved(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // Handle error
+            print("Error saving image: \(error)")
+        } else {
+            print("Image saved successfully")
+        }
+    }
+    
+    func drawText(on image: UIImage, text: String, at point: CGPoint) -> UIImage? {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        let backgroundRectColor = UIColor.white
+        
+        // Set time style
+        dateFormatter.timeStyle = .medium
+
+        let currentTime = dateFormatter.string(from: currentDate)
+        
+        let drawableText = currentTime + text
+        let textColor = UIColor.red
+        let textFont = UIFont.systemFont(ofSize: 40)
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+        image.draw(in: CGRect(origin: .zero, size: image.size))
+        
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: textFont,
+            .foregroundColor: textColor
+        ]
+        
+        let textSize = drawableText.size(withAttributes: attrs)
+        let backgroundRect = CGRect(x: point.x, y: point.y, width: textSize.width, height: textSize.height)
+           
+        // Draw white background rectangle
+           let context = UIGraphicsGetCurrentContext()
+           context?.setFillColor(backgroundRectColor.cgColor)
+           context?.fill(backgroundRect)
+        
+        drawableText.draw(at: point, withAttributes: attrs)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }
