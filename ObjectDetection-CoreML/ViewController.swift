@@ -200,10 +200,15 @@ extension ViewController {
 //                        _ = DistanceUtils.rotationInfo(direction: rotationDirection)
                         let nextRotationDirection = DistanceUtils.nextRotationInfo(currentRotation: currentRotation, expectedRotation: rotationDirection)
                         
+                        let currentDate = Date()
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeStyle = .medium
                         
-                        print("aaaaaaax \(Date().timeIntervalSince1970), \(currentRotation), \(rotationDirection)")
+                        let currentTime = dateFormatter.string(from: currentDate)
+                        
+                        print("aaaaaaax \(currentTime), \(currentRotation), \(rotationDirection)")
                         if nextRotationDirection != nil {
-                            print("aaaaaaaay \(Date().timeIntervalSince1970), \(currentRotation), \(rotationDirection), \(nextRotationDirection!)")
+                            print("aaaaaaaay \(currentTime), \(currentRotation), \(rotationDirection), \(nextRotationDirection!)")
                             deviceUtils?.rotate(direction: nextRotationDirection!)
                             
                             if self.pixelBuffer != nil, let image = pixelBufferToUIImage(pixelBuffer: pixelBuffer!) {

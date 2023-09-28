@@ -26,7 +26,7 @@ public class VideoCapture: NSObject {
     let videoOutput = AVCaptureVideoDataOutput()
     let queue = DispatchQueue(label: "com.Ventii.camera-queue")
     
-    var lastTimestamp = CMTime()
+    var lastTimestamp = Date()
     
     // MARK: camera recording
     private var _assetWriter: AVAssetWriter?
@@ -116,10 +116,8 @@ extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
         // we capture at full speed but only call the delegate at its desired
         // framerate.
         let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        let deltaTime = timestamp - lastTimestamp
-        if deltaTime >= CMTimeMake(value: 1, timescale: 2) {
-            print("qqqqqqqq \(cmTimeToReadableString(timestamp))")
-            lastTimestamp = timestamp
+        if Date().timeIntervalSince(lastTimestamp) > 1 {
+            lastTimestamp = Date()
             let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
             delegate?.videoCapture(self, didCaptureVideoFrame: imageBuffer, timestamp: timestamp)
         }
