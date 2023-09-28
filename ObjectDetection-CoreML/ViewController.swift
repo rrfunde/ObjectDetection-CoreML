@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     var characteristic: Characteristic?
     var peripheral: Peripheral?
     private var deviceUtils: DeviceUtils?
-    private var currentRotation: RotationDirection = .center
+    var currentRotation: RotationDirection = .center
     private var pixelBuffer: CVPixelBuffer?
 
     // MARK - Core ML model
@@ -63,6 +63,7 @@ class ViewController: UIViewController {
     
     @IBAction func recordingStarted(_ sender: Any) {
         videoCapture._captureState = .start
+        currentRotation = .center
         UIApplication.shared.isIdleTimerDisabled = true
         startButton.setTitle("started", for: .normal)
         stopButton.setTitle("stop", for: .normal)
@@ -202,7 +203,7 @@ extension ViewController {
                         
                         print("aaaaaaax \(Date().timeIntervalSince1970), \(currentRotation), \(rotationDirection)")
                         if nextRotationDirection != nil {
-                            print("aaaaaaaay \(Date().timeIntervalSince1970), \(currentRotation), \(nextRotationDirection!)")
+                            print("aaaaaaaay \(Date().timeIntervalSince1970), \(currentRotation), \(rotationDirection), \(nextRotationDirection!)")
                             deviceUtils?.rotate(direction: nextRotationDirection!)
                             
                             if self.pixelBuffer != nil, let image = pixelBufferToUIImage(pixelBuffer: pixelBuffer!) {
